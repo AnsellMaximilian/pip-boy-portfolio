@@ -22,8 +22,7 @@ const App: React.FC = () => {
       {!booted ? (
         <BootSequence onComplete={handleBootComplete} />
       ) : (
-        <div className={`transition-opacity duration-1000 ${showPipBoy ? 'opacity-100' : 'opacity-0'}`}>
-           <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/dark-leather.png')] opacity-10 pointer-events-none"></div>
+        <div className={`transition-opacity duration-1000 ${showPipBoy ? 'opacity-100' : 'opacity-0'} w-full h-full`}>
            <PipBoy />
         </div>
       )}
