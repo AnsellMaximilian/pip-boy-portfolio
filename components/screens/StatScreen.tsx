@@ -1,27 +1,105 @@
 import React, { useState } from 'react';
 import { StatSubTab, Skill, Perk } from '../../types';
 import { SKILLS, PERKS } from '../../data';
-import { Layout, Eye, Server, Smile, Brain, Zap, Clover, Cloud, Users, Palette, Shield } from 'lucide-react';
+import { 
+  Layout, Eye, Server, Smile, Brain, Zap, Clover, Cloud, Users, Palette, Shield,
+  User
+} from 'lucide-react';
+
+const PROGRAMMER_BOY_URL = "https://image2url.com/r2/default/images/1769410393270-040d283e-251e-48ff-8871-1a0bea0a1540.png";
 
 interface StatScreenProps {
   activeSubTab: StatSubTab;
 }
 
 const StatScreen: React.FC<StatScreenProps> = ({ activeSubTab }) => {
-  // We only implement SPECIAL and PERKS for this demo
+  if (activeSubTab === 'STATUS') {
+    return <StatusView />;
+  }
   if (activeSubTab === 'SPECIAL') {
     return <SpecialView />;
   }
   if (activeSubTab === 'PERKS') {
     return <PerksView />;
   }
-  return <div className="p-8 text-center animate-pulse">STATUS MODULE OFFLINE / USE 'SPECIAL'</div>;
+  return <div className="p-8 text-center animate-pulse">MODULE OFFLINE</div>;
 };
 
 // Icon mapper
 const IconMap: Record<string, React.ElementType> = {
   Layout, Eye, Server, Smile, Brain, Zap, Clover, Cloud, Users, Palette, Shield
 };
+
+const StatusView: React.FC = () => {
+  const [imgError, setImgError] = useState(false);
+
+  return (
+    <div className="flex flex-col items-center justify-between h-full py-2 relative overflow-hidden">
+       
+       {/* Top Summary */}
+       <div className="text-center space-y-1 z-10 w-full border-b border-pip/20 pb-2">
+          <h2 className="text-xl sm:text-2xl font-bold tracking-widest text-pip drop-shadow-[0_0_5px_rgba(16,185,129,0.8)]">
+            FULL STACK DEVELOPER
+          </h2>
+       </div>
+
+       {/* Center Character Area */}
+       <div className="flex-1 w-full flex items-center justify-center relative my-2 min-h-0">
+          
+          {/* Background Reticle Lines */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-30">
+             {/* Main Circle - Scaled up */}
+             <div className="w-64 h-64 sm:w-[28rem] sm:h-[28rem] border border-pip/20 rounded-full animate-pulse"></div>
+             {/* Crosshairs */}
+             <div className="absolute w-[120%] h-[1px] bg-pip/20"></div>
+             <div className="absolute w-[1px] h-[120%] bg-pip/20"></div>
+             {/* Inner decorative circle */}
+             <div className="absolute w-48 h-48 sm:w-80 sm:h-80 border border-pip/10 rounded-full"></div>
+          </div>
+
+          {/* Character Image Container - Scaled up */}
+          <div className="relative z-10 h-56 w-56 sm:h-96 sm:w-96 flex items-center justify-center">
+             {!imgError ? (
+               <img 
+                 src={PROGRAMMER_BOY_URL} 
+                 alt="Programmer Character"
+                 className="h-full w-full object-contain animate-flicker"
+                 style={{
+                    // Filter turns white content to Pip-Boy green (#10b981)
+                    filter: 'brightness(0) saturate(100%) invert(58%) sepia(87%) saturate(365%) hue-rotate(101deg) brightness(92%) contrast(92%) drop-shadow(0 0 5px rgba(16,185,129,0.5))',
+                    maskImage: 'repeating-linear-gradient(black, black 2px, transparent 3px)',
+                    WebkitMaskImage: 'repeating-linear-gradient(black, black 2px, transparent 3px)',
+                    opacity: 0.9
+                 }}
+                 onError={() => setImgError(true)}
+               />
+             ) : (
+               <div className="flex flex-col items-center justify-center animate-flicker opacity-80 text-pip">
+                  <User size={200} strokeWidth={1} className="drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+               </div>
+             )}
+          </div>
+       </div>
+
+       {/* Bottom Section: Description & Name */}
+       <div className="w-full flex flex-col items-center space-y-4 z-10 mb-2 sm:mb-6 shrink-0">
+          
+          {/* Description */}
+          <div className="w-full max-w-2xl text-center px-4">
+             <p className="text-pip text-lg sm:text-xl font-mono leading-relaxed opacity-90 drop-shadow-[0_0_2px_rgba(16,185,129,0.5)]">
+                "Wandering the digital wasteland, crafting robust applications and surviving deadline radiation with high AP."
+             </p>
+          </div>
+
+          {/* Name Display */}
+          <div className="text-2xl sm:text-3xl font-bold uppercase tracking-[0.2em] text-pip drop-shadow-[0_0_8px_rgba(16,185,129,1)]">
+             YOUR_NAME
+          </div>
+       </div>
+
+    </div>
+  )
+}
 
 const SpecialView: React.FC = () => {
   const [selectedSkill, setSelectedSkill] = useState<Skill>(SKILLS[0]);
