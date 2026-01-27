@@ -3,7 +3,7 @@ import { StatSubTab, Skill, Perk } from '../../types';
 import { SKILLS, PERKS } from '../../data';
 import { 
   Layout, Eye, Server, Smile, Brain, Zap, Clover, Cloud, Users, Palette, Shield,
-  User
+  User, Code, Terminal, Database, Box, PenTool, Layers, Bug, Atom
 } from 'lucide-react';
 
 const PROGRAMMER_BOY_URL = "https://image2url.com/r2/default/images/1769410393270-040d283e-251e-48ff-8871-1a0bea0a1540.png";
@@ -27,7 +27,8 @@ const StatScreen: React.FC<StatScreenProps> = ({ activeSubTab }) => {
 
 // Icon mapper
 const IconMap: Record<string, React.ElementType> = {
-  Layout, Eye, Server, Smile, Brain, Zap, Clover, Cloud, Users, Palette, Shield
+  Layout, Eye, Server, Smile, Brain, Zap, Clover, Cloud, Users, Palette, Shield,
+  Code, Terminal, Database, Box, PenTool, Layers, Bug, Atom
 };
 
 const StatusView: React.FC = () => {
@@ -39,7 +40,7 @@ const StatusView: React.FC = () => {
        {/* Top Summary */}
        <div className="text-center space-y-1 z-10 w-full border-b border-pip/20 pb-2">
           <h2 className="text-xl sm:text-2xl font-bold tracking-widest text-pip drop-shadow-[0_0_5px_rgba(16,185,129,0.8)]">
-            FULL STACK DEVELOPER
+            SOFTWARE ENGINEER
           </h2>
        </div>
 
@@ -87,13 +88,13 @@ const StatusView: React.FC = () => {
           {/* Description */}
           <div className="w-full max-w-2xl text-center px-4">
              <p className="text-pip text-lg sm:text-xl font-mono leading-relaxed opacity-90 drop-shadow-[0_0_2px_rgba(16,185,129,0.5)]">
-                "Wandering the digital wasteland, crafting robust applications and surviving deadline radiation with high AP."
+                "Specializing in building (and occasionally designing) exceptional digital experiences. Currently focused on building accessible, human-centered products."
              </p>
           </div>
 
           {/* Name Display */}
           <div className="text-2xl sm:text-3xl font-bold uppercase tracking-[0.2em] text-pip drop-shadow-[0_0_8px_rgba(16,185,129,1)]">
-             YOUR_NAME
+             ANSELL MAXIMILIAN
           </div>
        </div>
 
@@ -127,7 +128,19 @@ const SpecialView: React.FC = () => {
       {/* Detail Column */}
       <div className="w-full md:w-1/2 flex flex-col items-center justify-start p-4 text-pip">
         <div className="relative w-48 h-48 sm:w-64 sm:h-64 mb-6 flex items-center justify-center border-4 border-pip rounded-full p-8 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-           <CurrentIcon size={120} strokeWidth={1.5} className="animate-pulse-fast drop-shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+           {selectedSkill.logoUrl ? (
+             <img 
+                src={selectedSkill.logoUrl} 
+                alt={selectedSkill.name}
+                className="w-32 h-32 sm:w-40 sm:h-40 object-contain animate-pulse-fast drop-shadow-[0_0_8px_rgba(16,185,129,0.8)]"
+                style={{
+                  // The magic green filter
+                  filter: 'brightness(0) saturate(100%) invert(58%) sepia(87%) saturate(365%) hue-rotate(101deg) brightness(92%) contrast(92%) drop-shadow(0 0 5px rgba(16,185,129,0.8))'
+                }}
+             />
+           ) : (
+             <CurrentIcon size={120} strokeWidth={1.5} className="animate-pulse-fast drop-shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+           )}
         </div>
         
         <div className="w-full text-left">

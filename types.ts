@@ -1,9 +1,11 @@
+
 export interface Skill {
   id: string;
   name: string;
   level: number;
   description: string;
-  iconName: string; // Mapping to lucide icon
+  iconName: string; // Fallback lucide icon
+  logoUrl?: string; // External logo URL
 }
 
 export interface Perk {
@@ -23,18 +25,36 @@ export interface QuestStep {
 export interface Quest {
   id: string;
   title: string;
-  summary: string; // The short text shown in list
-  description: string; // Full text on right
+  summary: string;
+  description: string;
   steps: QuestStep[];
   date: string;
   status: 'active' | 'completed';
 }
 
+export interface ProjectItem {
+  id: string;
+  title: string;
+  tech: string[];
+  description: string;
+  link?: string;
+  image?: string;
+}
+
+export interface Achievement {
+  id: string;
+  title: string;
+  event: string;
+  rank: string;
+  date: string;
+  description: string;
+}
+
 export interface InventoryItem {
   id: string;
   name: string;
-  damage: number; // Used for "Impact" of project
-  weight: number; // Used for "Size" or complexity
+  damage: number;
+  weight: number;
   value: number;
   description: string;
   tags: string[];
@@ -43,5 +63,5 @@ export interface InventoryItem {
 // Navigation Types
 export type MainTab = 'STAT' | 'INV' | 'DATA' | 'MAP' | 'RADIO';
 export type StatSubTab = 'STATUS' | 'SPECIAL' | 'PERKS';
-export type DataSubTab = 'QUESTS' | 'WORKSHOPS' | 'STATS';
+export type DataSubTab = 'QUESTS' | 'PROJECTS' | 'ACHIEVEMENTS'; // Changed WORKSHOPS to PROJECTS
 export type InvSubTab = 'WEAPONS' | 'APPAREL' | 'AID' | 'MISC';

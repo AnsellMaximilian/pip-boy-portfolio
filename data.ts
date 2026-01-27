@@ -1,144 +1,212 @@
-import { Skill, Perk, Quest, InventoryItem } from './types';
+
+import { Skill, Perk, Quest, InventoryItem, ProjectItem, Achievement } from './types';
 
 export const SKILLS: Skill[] = [
   {
-    id: 's-strength',
-    name: 'Front-End',
-    level: 8,
-    description: "Strength is a measure of your raw coding power. It affects how much UI complexity you can carry and the damage of all CSS attacks.",
-    iconName: 'Layout'
-  },
-  {
-    id: 's-perception',
-    name: 'TypeScript',
-    level: 7,
-    description: "Perception is your ability to catch bugs early. A high Perception grants better type safety and accuracy in V.A.T.S. (Visual Analysis Type System).",
-    iconName: 'Eye'
-  },
-  {
-    id: 's-endurance',
-    name: 'Backend',
-    level: 5,
-    description: "Endurance is a measure of your server-side stamina. It affects your total HP (Hosting Power) and the AP drain from database queries.",
-    iconName: 'Server'
-  },
-  {
-    id: 's-charisma',
-    name: 'Soft Skills',
+    id: 's-js',
+    name: 'JavaScript',
     level: 9,
-    description: "Charisma is your ability to charm stakeholders and lead teams. It affects your success in persuade attempts and prices in salary negotiations.",
-    iconName: 'Smile'
+    description: "The universal language of the web wasteland. Proficiency allows for complex logic crafting and DOM manipulation.",
+    iconName: 'Code',
+    logoUrl: 'https://cdn.simpleicons.org/javascript'
   },
   {
-    id: 's-intelligence',
-    name: 'Problem Solving',
+    id: 's-ts',
+    name: 'TypeScript',
     level: 8,
-    description: "Intelligence is a measure of your overall mental acuity. It affects the number of Experience Points earned from debugging and the rank of algorithms you can craft.",
-    iconName: 'Brain'
+    description: "A reinforced alloy of JavaScript. Grants +50% Bug Resistance and enables the 'Strict Mode' perk for safer coding.",
+    iconName: 'Code',
+    logoUrl: 'https://cdn.simpleicons.org/typescript'
   },
   {
-    id: 's-agility',
+    id: 's-react',
     name: 'React',
     level: 9,
-    description: "Agility is a measure of your reflex and finesse. It directly affects the number of Action Points in the Virtual DOM and your ability to render stealthily.",
-    iconName: 'Zap'
+    description: "Advanced component fabrication technology. Allows rapid construction of interactive UI interfaces with high durability.",
+    iconName: 'Atom',
+    logoUrl: 'https://cdn.simpleicons.org/react'
   },
   {
-    id: 's-luck',
-    name: 'Deployment',
-    level: 4,
-    description: "Luck is a measure of your general good fortune. It affects the recharge rate of Critical Hits on Fridays and the chance of finding better loot in logs.",
-    iconName: 'Clover'
+    id: 's-next',
+    name: 'Next.js',
+    level: 8,
+    description: "Server-side rendering framework. significantly boosts SEO stats and reduces initial load times.",
+    iconName: 'Zap',
+    logoUrl: 'https://cdn.simpleicons.org/nextdotjs'
+  },
+  {
+    id: 's-node',
+    name: 'Node.js',
+    level: 7,
+    description: "Server-side runtime environment. Enables backend operations and asynchronous event handling outside the browser.",
+    iconName: 'Server',
+    logoUrl: 'https://cdn.simpleicons.org/nodedotjs'
+  },
+  {
+    id: 's-python',
+    name: 'Python',
+    level: 6,
+    description: "High-level scripting language known for readability. Effective for automation scripts and data analysis quests.",
+    iconName: 'Terminal',
+    logoUrl: 'https://cdn.simpleicons.org/python'
+  },
+  {
+    id: 's-sql',
+    name: 'PostgreSQL',
+    level: 7,
+    description: "Relational database management. Essential for structured data storage and complex query execution.",
+    iconName: 'Database',
+    logoUrl: 'https://cdn.simpleicons.org/postgresql'
+  },
+  {
+    id: 's-docker',
+    name: 'Docker',
+    level: 5,
+    description: "Containerization platform. Allows for consistent deployment environments across different servers.",
+    iconName: 'Box',
+    logoUrl: 'https://cdn.simpleicons.org/docker'
+  },
+  {
+    id: 's-figma',
+    name: 'Figma',
+    level: 6,
+    description: "Interface design tool. Used for blueprinting applications before construction begins.",
+    iconName: 'PenTool',
+    logoUrl: 'https://cdn.simpleicons.org/figma'
   }
 ];
 
 export const PERKS: Perk[] = [
   {
-    id: 'p-aws',
-    name: 'Cloud Wanderer',
+    id: 'p-fullstack',
+    name: 'Full Stack Savant',
     rank: 3,
-    maxRank: 4,
-    description: "You've spent years roaming the AWS wastelands. +20% damage to server costs and resistance to downtime radiation.",
-    iconName: 'Cloud'
+    maxRank: 3,
+    description: "You are as comfortable in the DB as you are in CSS. +25% efficiency when working solo on projects.",
+    iconName: 'Layers'
   },
   {
-    id: 'p-scrum',
-    name: 'Agile Master',
+    id: 'p-uiux',
+    name: 'User Whisperer',
     rank: 2,
-    maxRank: 2,
-    description: "Your mastery of the sprint allows you to move 10% faster when deadlines approach. Unlocks 'Daily Standup' dialogue options.",
-    iconName: 'Users'
+    maxRank: 3,
+    description: "You understand what users want before they do. +15% to User Experience and Accessibility scores.",
+    iconName: 'Smile'
   },
   {
-    id: 'p-ui',
-    name: 'Pixel Perfect',
-    rank: 5,
+    id: 'p-debugger',
+    name: 'Bug Hunter',
+    rank: 4,
     maxRank: 5,
-    description: "Critical hits in CSS styling now cause target elements to align perfectly. +15% clearer interfaces.",
-    iconName: 'Palette'
+    description: "V.A.T.S. now highlights syntax errors and logic flaws with 95% accuracy.",
+    iconName: 'Bug'
+  }
+];
+
+export const PROJECTS: ProjectItem[] = [
+  {
+    id: 'p-hashnomon',
+    title: 'Hashnomon',
+    tech: ['React', 'TypeScript', 'Web3'], 
+    description: "A gamified platform inspired by classic creature collection games. Features unique mechanics for exploring the digital wilderness.",
+    link: 'https://ansellmaximilian.vercel.app/projects/hashnomon'
+  },
+  {
+    id: 'p-lunar',
+    title: 'Lunar Editor',
+    tech: ['TypeScript', 'Electron', 'React'],
+    description: "A lightweight, aesthetically pleasing text editor designed for developers who value focus and minimalism.",
+    link: 'https://ansellmaximilian.vercel.app/projects/lunar-editor'
+  },
+  {
+    id: 'p-mading',
+    title: 'Mading Live',
+    tech: ['Next.js', 'Firebase', 'Tailwind'],
+    description: "A modern digital wall magazine platform for schools. Enables real-time publishing of events, articles, and achievements.",
+    link: 'https://ansellmaximilian.vercel.app/projects/mading-live'
+  },
+  {
+    id: 'p-rsvquick',
+    title: 'RSVQuick',
+    tech: ['React', 'Node.js', 'PostgreSQL'],
+    description: "A streamlined event management solution. Create events and manage RSVPs with ease and efficiency.",
+    link: 'https://ansellmaximilian.vercel.app/projects/rsvquick'
+  }
+];
+
+export const ACHIEVEMENTS: Achievement[] = [
+  {
+    id: 'a-hackcal',
+    title: 'Grand Prize Winner',
+    event: 'HackCal 2024',
+    rank: '1st Place',
+    date: '2024.02.15',
+    description: "Awarded top honors for 'NeuroLink', a brain-computer interface simulator. Competed against 50+ teams."
+  },
+  {
+    id: 'a-bearhack',
+    title: 'Best UI/UX Design',
+    event: 'BearHack 2023',
+    rank: 'Special Category',
+    date: '2023.11.10',
+    description: "Recognized for exceptional interface design and user experience flow on 'Wasteland Map', a resource tracking app."
+  },
+  {
+    id: 'a-calhacks',
+    title: 'Competition Finalist',
+    event: 'CalHacks 10.0',
+    rank: 'Top 10',
+    date: '2023.10.28',
+    description: "Reached the finals with 'Pip-Boy-Web', an early prototype of this portfolio system."
   }
 ];
 
 export const QUESTS: Quest[] = [
   {
-    id: 'q-current',
-    title: 'Project: E-Commerce Overhaul',
-    summary: "Refactor the legacy codebase for the 'SuperDuperMart' online portal.",
-    description: "The client needs a complete overhaul of their storefront. The old system is irradiated with bugs. I need to migrate the frontend to Next.js and secure the payment gateway.",
+    id: 'q-portfolio',
+    title: 'Portfolio Polish',
+    summary: "Finalize the Pip-Boy interface implementation.",
+    description: "The interface is functional but requires aesthetic tuning. Objectives include responsive adjustments and data entry.",
     date: '10.23.2287',
     status: 'active',
     steps: [
-      { text: 'Migrate React Class components to Hooks', completed: true },
-      { text: 'Implement Stripe Payment Integration', completed: true },
-      { text: 'Optimize Lighthouse score to 100', completed: false },
-      { text: 'Deploy to Vercel production environment', completed: false }
+      { text: 'Implement Responsive Design', completed: true },
+      { text: 'Populate Real Data', completed: true },
+      { text: 'Fix Mobile Layout Bugs', completed: false }
     ]
   },
   {
-    id: 'q-past-1',
-    title: 'The Great Migration',
-    summary: "Move the entire Vault-Tec database to a PostgreSQL cluster.",
-    description: "Overseer requested a migration of user data. It was a treacherous journey through legacy SQL mountains.",
-    date: '05.11.2285',
-    status: 'completed',
+    id: 'q-job',
+    title: 'Career Progression',
+    summary: "Secure a position at a major tech faction.",
+    description: "Scout for opportunities at Brotherhood of Steel (Big Tech) or Railroad (Startups). Prepare resume holotapes.",
+    date: 'Ongoing',
+    status: 'active',
     steps: [
-      { text: 'Backup existing data holotapes', completed: true },
-      { text: 'Design new schema for Dweller data', completed: true },
-      { text: 'Verify data integrity with checksums', completed: true }
-    ]
-  },
-  {
-    id: 'q-edu',
-    title: 'University Degree',
-    summary: "Acquire the G.O.A.T. certification from the Institute.",
-    description: "Completed a 4-year campaign at the University of Technology. Specialized in Artificial Intelligence and Web Systems.",
-    date: '09.01.2280',
-    status: 'completed',
-    steps: [
-      { text: 'Survive "Data Structures & Algorithms" dungeon', completed: true },
-      { text: 'Defeat the Thesis Defense boss', completed: true },
-      { text: 'Collect Diploma item', completed: true }
+      { text: 'Update Resume', completed: true },
+      { text: 'Network with Overseers', completed: false },
+      { text: 'Pass Technical Interview', completed: false }
     ]
   }
 ];
 
 export const ITEMS: InventoryItem[] = [
   {
-    id: 'i-portfolio',
-    name: 'Pip-Boy Portfolio',
-    damage: 50,
-    weight: 1.5,
-    value: 1000,
-    description: "A customized react application simulating a RobCo Pip-Boy interface. Highly radioactive style.",
-    tags: ['React', 'Tailwind', 'Framer']
+    id: 'i-keyboard',
+    name: 'Mech Keyboard',
+    damage: 15,
+    weight: 2,
+    value: 150,
+    description: "A rugged mechanical input device. Clicky switches cause +5 annoyance to nearby stealth units.",
+    tags: ['Hardware', 'Input']
   },
   {
-    id: 'i-saas',
-    name: 'SaaS Starter Kit',
-    damage: 85,
-    weight: 5,
-    value: 500,
-    description: "A fully equipped starter kit for launching startups. Includes Auth, Database, and Payment modules.",
-    tags: ['Next.js', 'Prisma', 'Stripe']
+    id: 'i-coffee',
+    name: 'Nuka-Caffeine',
+    damage: 0,
+    weight: 0.5,
+    value: 20,
+    description: "A glowing bottle of high-octane coffee. Restores 50 AP but reduces hydration.",
+    tags: ['Aid', 'Consumable']
   }
 ];

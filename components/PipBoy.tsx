@@ -50,7 +50,7 @@ const PipBoy: React.FC = () => {
       case 'DATA':
          return (
           <div className="flex gap-6 mb-4 text-xl overflow-x-auto scrollbar-hide">
-             {(['QUESTS', 'WORKSHOPS', 'STATS'] as DataSubTab[]).map((sub) => (
+             {(['QUESTS', 'PROJECTS', 'ACHIEVEMENTS'] as DataSubTab[]).map((sub) => (
               <button
                 key={sub}
                 onClick={() => setDataSub(sub)}
