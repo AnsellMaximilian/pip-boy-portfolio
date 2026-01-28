@@ -15,6 +15,8 @@ export interface Perk {
   maxRank: number;
   description: string;
   iconName: string;
+  issuer?: string;
+  link?: string;
 }
 
 export interface QuestStep {

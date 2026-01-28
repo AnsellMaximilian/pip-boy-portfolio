@@ -78,28 +78,42 @@ export const SKILLS: Skill[] = [
 
 export const PERKS: Perk[] = [
   {
+    id: 'c-equitable',
+    name: 'Equitable Elevation III',
+    rank: 1,
+    maxRank: 1,
+    description: "Honorable Achievement Certificate recognizing dedication to equitable growth and elevation.",
+    iconName: 'Award',
+    issuer: 'Certopus',
+    link: 'https://certopus.com/c/e32b60aec59244308869ed954e16d267'
+  },
+  {
+    id: 'c-javascript',
+    name: 'JavaScript (Basic)',
+    rank: 1,
+    maxRank: 1,
+    description: "Certified competency in JavaScript language fundamentals, including functions, events, and error handling.",
+    iconName: 'Code',
+    issuer: 'HackerRank',
+    link: 'https://www.hackerrank.com/certificates/559db4261ad4'
+  },
+  {
+    id: 'c-react',
+    name: 'React (Basic)',
+    rank: 1,
+    maxRank: 1,
+    description: "Certified competency in React framework fundamentals, covering components, props, state, and lifecycle.",
+    iconName: 'Atom',
+    issuer: 'HackerRank',
+    link: 'https://www.hackerrank.com/certificates/847db34c7fbe'
+  },
+  {
     id: 'p-fullstack',
     name: 'Full Stack Savant',
     rank: 3,
     maxRank: 3,
     description: "You are as comfortable in the DB as you are in CSS. +25% efficiency when working solo on projects.",
     iconName: 'Layers'
-  },
-  {
-    id: 'p-uiux',
-    name: 'User Whisperer',
-    rank: 2,
-    maxRank: 3,
-    description: "You understand what users want before they do. +15% to User Experience and Accessibility scores.",
-    iconName: 'Smile'
-  },
-  {
-    id: 'p-debugger',
-    name: 'Bug Hunter',
-    rank: 4,
-    maxRank: 5,
-    description: "V.A.T.S. now highlights syntax errors and logic flaws with 95% accuracy.",
-    iconName: 'Bug'
   }
 ];
 

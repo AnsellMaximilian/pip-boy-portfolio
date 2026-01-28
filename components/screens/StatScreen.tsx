@@ -3,7 +3,7 @@ import { StatSubTab, Skill, Perk } from '../../types';
 import { SKILLS, PERKS } from '../../data';
 import { 
   Layout, Eye, Server, Smile, Brain, Zap, Clover, Cloud, Users, Palette, Shield,
-  User, Code, Terminal, Database, Box, PenTool, Layers, Bug, Atom
+  User, Code, Terminal, Database, Box, PenTool, Layers, Bug, Atom, Award, ExternalLink
 } from 'lucide-react';
 
 const PROGRAMMER_BOY_URL = "https://image2url.com/r2/default/images/1769410393270-040d283e-251e-48ff-8871-1a0bea0a1540.png";
@@ -28,7 +28,7 @@ const StatScreen: React.FC<StatScreenProps> = ({ activeSubTab }) => {
 // Icon mapper
 const IconMap: Record<string, React.ElementType> = {
   Layout, Eye, Server, Smile, Brain, Zap, Clover, Cloud, Users, Palette, Shield,
-  Code, Terminal, Database, Box, PenTool, Layers, Bug, Atom
+  Code, Terminal, Database, Box, PenTool, Layers, Bug, Atom, Award
 };
 
 const StatusView: React.FC = () => {
@@ -159,7 +159,7 @@ const PerksView: React.FC = () => {
   return (
     <div className="flex flex-col h-full gap-4">
       <div className="flex flex-col md:flex-row h-full gap-4">
-          <div className="w-full md:w-1/2 flex flex-col gap-1 pr-2 border-r-2 border-pip/30">
+          <div className="w-full md:w-1/2 flex flex-col gap-1 pr-2 border-r-2 border-pip/30 overflow-y-auto">
             {PERKS.map((perk) => (
               <button
                 key={perk.id}
@@ -182,14 +182,32 @@ const PerksView: React.FC = () => {
               <div className="mb-4">
                  <CurrentIcon size={100} className="animate-flicker" />
               </div>
-              <div className="w-full border-2 border-pip p-4 bg-pip/5 rounded">
-                <h3 className="text-xl font-bold mb-2 border-b border-pip/50 pb-2">{selectedPerk.name}</h3>
+              <div className="w-full border-2 border-pip p-4 bg-pip/5 rounded relative">
+                <h3 className="text-xl font-bold mb-1 border-b border-pip/50 pb-2">{selectedPerk.name}</h3>
+                
+                {selectedPerk.issuer && (
+                   <div className="text-sm opacity-70 mb-2 uppercase tracking-wide">
+                      Issuer: {selectedPerk.issuer}
+                   </div>
+                )}
+
                 <div className="flex mb-2 text-pip-light">
                     {[...Array(selectedPerk.maxRank)].map((_, i) => (
                          <span key={i} className="text-2xl mr-1">{i < selectedPerk.rank ? '★' : '☆'}</span>
                     ))}
                 </div>
-                <p className="text-lg">{selectedPerk.description}</p>
+                <p className="text-lg mb-4">{selectedPerk.description}</p>
+                
+                {selectedPerk.link && (
+                    <a 
+                      href={selectedPerk.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 bg-pip text-black px-4 py-1 text-lg font-bold hover:bg-pip-light transition-colors uppercase"
+                    >
+                       Access Certificate <ExternalLink size={16} />
+                    </a>
+                )}
               </div>
           </div>
       </div>
