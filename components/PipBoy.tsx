@@ -6,13 +6,13 @@ import DataScreen from './screens/DataScreen';
 import InvScreen from './screens/InvScreen';
 
 // Main Tabs Config
-const TABS: MainTab[] = ['STAT', 'INV', 'DATA', 'MAP', 'RADIO'];
+const TABS: MainTab[] = ['STAT', 'DATA', 'INV', 'MAP', 'RADIO'];
 
 const PipBoy: React.FC = () => {
   const [activeTab, setActiveTab] = useState<MainTab>('STAT');
   
   // Sub-tabs State
-  const [statSub, setStatSub] = useState<StatSubTab>('SPECIAL');
+  const [statSub, setStatSub] = useState<StatSubTab>('STATUS');
   const [invSub, setInvSub] = useState<InvSubTab>('WEAPONS');
   const [dataSub, setDataSub] = useState<DataSubTab>('QUESTS');
 
