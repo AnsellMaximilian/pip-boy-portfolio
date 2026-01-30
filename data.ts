@@ -177,29 +177,44 @@ export const ACHIEVEMENTS: Achievement[] = [
 
 export const QUESTS: Quest[] = [
   {
-    id: 'q-portfolio',
-    title: 'Portfolio Polish',
-    summary: "Finalize the Pip-Boy interface implementation.",
-    description: "The interface is functional but requires aesthetic tuning. Objectives include responsive adjustments and data entry.",
-    date: '10.23.2287',
+    id: 'q-nexsoft',
+    title: 'Android Developer',
+    summary: 'PT Paramadaksa Teknologi Nusantara',
+    description: "Contract role at nexSOFT. Responsible for analyzing FSDs and implementing Android solutions using Java. Coordinate with QC/QA for seamless testing and release preparation.",
+    date: 'Jan 2024 - Present',
     status: 'active',
     steps: [
-      { text: 'Implement Responsive Design', completed: true },
-      { text: 'Populate Real Data', completed: true },
-      { text: 'Fix Mobile Layout Bugs', completed: false }
+      { text: 'Analyze FSDs & Tech Solutions', completed: true },
+      { text: 'Implement Change Requests (Java)', completed: true },
+      { text: 'Coordinate w/ QA Teams', completed: true },
+      { text: 'Release Prep & Regression Testing', completed: true }
     ]
   },
   {
-    id: 'q-job',
-    title: 'Career Progression',
-    summary: "Secure a position at a major tech faction.",
-    description: "Scout for opportunities at Brotherhood of Steel (Big Tech) or Railroad (Startups). Prepare resume holotapes.",
-    date: 'Ongoing',
-    status: 'active',
+    id: 'q-rumahsehat',
+    title: 'Business System Dev',
+    summary: 'Rumah Sehat',
+    description: "Full-stack development for internal business systems. Managed requirements, design, and coding for sales, purchasing, and inventory modules.",
+    date: 'Jul 2020 - Jan 2024',
+    status: 'completed',
     steps: [
-      { text: 'Update Resume', completed: true },
-      { text: 'Network with Overseers', completed: false },
-      { text: 'Pass Technical Interview', completed: false }
+      { text: 'System Design (React, Node, Postgres)', completed: true },
+      { text: 'Requirement Gathering & Analysis', completed: true },
+      { text: 'Stock Reconciliation', completed: true },
+      { text: 'Automate Weekly Invoicing (50+)', completed: true }
+    ]
+  },
+  {
+    id: 'q-matana',
+    title: 'Information Systems',
+    summary: 'Matana University',
+    description: "Bachelor's degree in Management Information Systems. Graduated with a 3.85 GPA.",
+    date: '2018 - 2022',
+    status: 'completed',
+    steps: [
+      { text: 'Enterprise Resource Planning (ERP)', completed: true },
+      { text: 'Relational Databases', completed: true },
+      { text: 'Final Grade: 3.85', completed: true }
     ]
   }
 ];
