@@ -45,21 +45,21 @@ const StatusView: React.FC = () => {
        </div>
 
        {/* Center Character Area */}
-       <div className="flex-1 w-full flex items-center justify-center relative my-2 min-h-0">
+       <div className="flex-1 w-full flex items-center justify-center relative my-1 min-h-0">
           
           {/* Background Reticle Lines */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-30">
-             {/* Main Circle - Scaled up */}
-             <div className="w-64 h-64 sm:w-[28rem] sm:h-[28rem] border border-pip/20 rounded-full animate-pulse"></div>
+             {/* Main Circle - Scaled up but constrained by height */}
+             <div className="w-48 h-48 max-w-[40vh] max-h-[40vh] sm:w-[28rem] sm:h-[28rem] sm:max-w-[60vh] sm:max-h-[60vh] border border-pip/20 rounded-full animate-pulse"></div>
              {/* Crosshairs */}
              <div className="absolute w-[120%] h-[1px] bg-pip/20"></div>
              <div className="absolute w-[1px] h-[120%] bg-pip/20"></div>
              {/* Inner decorative circle */}
-             <div className="absolute w-48 h-48 sm:w-80 sm:h-80 border border-pip/10 rounded-full"></div>
+             <div className="absolute w-32 h-32 max-w-[30vh] max-h-[30vh] sm:w-80 sm:h-80 sm:max-w-[50vh] sm:max-h-[50vh] border border-pip/10 rounded-full"></div>
           </div>
 
-          {/* Character Image Container - Scaled up */}
-          <div className="relative z-10 h-56 w-56 sm:h-96 sm:w-96 flex items-center justify-center">
+          {/* Character Image Container - Responsive with max-height constraints */}
+          <div className="relative z-10 h-40 w-40 max-h-[35vh] max-w-[35vh] sm:h-96 sm:w-96 sm:max-h-[55vh] sm:max-w-[55vh] flex items-center justify-center">
              {!imgError ? (
                <img 
                  src={PROGRAMMER_BOY_URL} 
@@ -75,25 +75,25 @@ const StatusView: React.FC = () => {
                  onError={() => setImgError(true)}
                />
              ) : (
-               <div className="flex flex-col items-center justify-center animate-flicker opacity-80 text-pip">
-                  <User size={200} strokeWidth={1} className="drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+               <div className="flex flex-col items-center justify-center animate-flicker opacity-80 text-pip h-full w-full p-4">
+                  <User className="w-full h-full drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]" strokeWidth={1} />
                </div>
              )}
           </div>
        </div>
 
        {/* Bottom Section: Description & Name */}
-       <div className="w-full flex flex-col items-center space-y-4 z-10 mb-2 sm:mb-6 shrink-0">
+       <div className="w-full flex flex-col items-center space-y-2 sm:space-y-4 z-10 mb-2 sm:mb-6 shrink-0">
           
           {/* Description */}
           <div className="w-full max-w-2xl text-center px-4">
-             <p className="text-pip text-lg sm:text-xl font-mono leading-relaxed opacity-90 drop-shadow-[0_0_2px_rgba(16,185,129,0.5)]">
+             <p className="text-pip text-sm sm:text-xl font-mono leading-relaxed opacity-90 drop-shadow-[0_0_2px_rgba(16,185,129,0.5)]">
                 "Specializing in building (and occasionally designing) exceptional digital experiences. Currently focused on building accessible, human-centered products."
              </p>
           </div>
 
           {/* Name Display */}
-          <div className="text-2xl sm:text-3xl font-bold uppercase tracking-[0.2em] text-pip drop-shadow-[0_0_8px_rgba(16,185,129,1)]">
+          <div className="text-xl sm:text-3xl font-bold uppercase tracking-[0.2em] text-pip drop-shadow-[0_0_8px_rgba(16,185,129,1)]">
              ANSELL MAXIMILIAN
           </div>
        </div>
