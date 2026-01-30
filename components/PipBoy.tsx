@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MainTab, StatSubTab, DataSubTab } from '../types';
 import StatScreen from './screens/StatScreen';
@@ -6,15 +6,134 @@ import DataScreen from './screens/DataScreen';
 import RadioScreen from './screens/RadioScreen';
 import MapScreen from './screens/MapScreen';
 
-// Main Tabs Config
-const TABS: MainTab[] = ['STAT', 'DATA', 'MAP', 'RADIO'];
+// Navigation Structure
+type Section = {
+    tab: MainTab;
+    sub?: StatSubTab | DataSubTab;
+};
+
+const SECTIONS: Section[] = [
+    { tab: 'STAT', sub: 'STATUS' },
+    { tab: 'STAT', sub: 'SPECIAL' },
+    { tab: 'STAT', sub: 'PERKS' },
+    { tab: 'DATA', sub: 'QUESTS' },
+    { tab: 'DATA', sub: 'PROJECTS' },
+    { tab: 'DATA', sub: 'ACHIEVEMENTS' },
+    { tab: 'MAP' },
+    { tab: 'RADIO' },
+];
 
 const PipBoy: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<MainTab>('STAT');
-  
-  // Sub-tabs State
-  const [statSub, setStatSub] = useState<StatSubTab>('STATUS');
-  const [dataSub, setDataSub] = useState<DataSubTab>('QUESTS');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [apCharge, setApCharge] = useState(0); // 0 to 100
+
+  // Refs for scroll handling
+  const scrollAccumulator = useRef(0);
+  const lastScrollTime = useRef(0);
+  const decayFrameId = useRef<number>(0);
+  const SCROLL_THRESHOLD = 300; // Pixels of scroll needed to switch
+
+  // Derived State
+  const currentSection = SECTIONS[currentIndex];
+  const activeTab = currentSection.tab;
+  const activeSub = currentSection.sub;
+
+  // Helper: Check if element is scrollable in the requested direction
+  const canScrollElement = (el: HTMLElement, direction: 'up' | 'down'): boolean => {
+      const style = window.getComputedStyle(el);
+      const isScrollable = style.overflowY === 'auto' || style.overflowY === 'scroll';
+      
+      if (!isScrollable) return false;
+
+      // Use a small tolerance for float calculations
+      if (direction === 'down') {
+          return Math.abs(el.scrollHeight - el.clientHeight - el.scrollTop) > 1;
+      } else {
+          return el.scrollTop > 1;
+      }
+  };
+
+  const isScrollableContext = (target: EventTarget | null, direction: 'up' | 'down'): boolean => {
+      let el = target as HTMLElement;
+      while (el && el !== document.body) {
+          if (canScrollElement(el, direction)) {
+              return true;
+          }
+          el = el.parentElement as HTMLElement;
+      }
+      return false;
+  };
+
+  // Scroll Handler
+  useEffect(() => {
+      const handleWheel = (e: WheelEvent) => {
+          const direction = e.deltaY > 0 ? 'down' : 'up';
+          
+          // Check if we are inside a scrollable area that hasn't reached the edge
+          if (isScrollableContext(e.target, direction)) {
+              // If native scroll works, reset accumulator/AP and let it happen
+              scrollAccumulator.current = 0;
+              setApCharge(0);
+              return;
+          }
+
+          // Otherwise, hijack scroll for navigation
+          lastScrollTime.current = Date.now();
+          scrollAccumulator.current += e.deltaY;
+
+          // Cap accumulator logic at edges
+          if (currentIndex === 0 && scrollAccumulator.current < 0) scrollAccumulator.current = 0;
+          if (currentIndex === SECTIONS.length - 1 && scrollAccumulator.current > 0) scrollAccumulator.current = 0;
+
+          const charge = Math.min(100, Math.abs(scrollAccumulator.current / SCROLL_THRESHOLD) * 100);
+          setApCharge(charge);
+
+          if (Math.abs(scrollAccumulator.current) >= SCROLL_THRESHOLD) {
+              // Trigger Switch
+              if (scrollAccumulator.current > 0) {
+                 if (currentIndex < SECTIONS.length - 1) setCurrentIndex(prev => prev + 1);
+              } else {
+                 if (currentIndex > 0) setCurrentIndex(prev => prev - 1);
+              }
+              scrollAccumulator.current = 0;
+              setApCharge(0);
+          }
+      };
+
+      window.addEventListener('wheel', handleWheel, { passive: false });
+      
+      // Decay Loop
+      const decay = () => {
+          const now = Date.now();
+          if (now - lastScrollTime.current > 100 && Math.abs(scrollAccumulator.current) > 0) {
+              // Decay speed
+              scrollAccumulator.current *= 0.85; 
+              if (Math.abs(scrollAccumulator.current) < 1) scrollAccumulator.current = 0;
+              
+              const charge = Math.min(100, Math.abs(scrollAccumulator.current / SCROLL_THRESHOLD) * 100);
+              setApCharge(charge);
+          }
+          decayFrameId.current = requestAnimationFrame(decay);
+      };
+      decayFrameId.current = requestAnimationFrame(decay);
+
+      return () => {
+          window.removeEventListener('wheel', handleWheel);
+          cancelAnimationFrame(decayFrameId.current);
+      };
+  }, [currentIndex]);
+
+  // Manual Tab Click Handler
+  const handleTabClick = (tab: MainTab) => {
+      const index = SECTIONS.findIndex(s => s.tab === tab);
+      if (index !== -1) setCurrentIndex(index);
+  };
+
+  // Manual SubTab Click Handler
+  const handleSubClick = (sub: StatSubTab | DataSubTab) => {
+      const index = SECTIONS.findIndex(s => s.sub === sub);
+      if (index !== -1) setCurrentIndex(index);
+  };
 
   // Render Sub Navigation based on active Tab
   const renderSubNav = () => {
@@ -25,8 +144,8 @@ const PipBoy: React.FC = () => {
             {(['STATUS', 'SPECIAL', 'PERKS'] as StatSubTab[]).map((sub) => (
               <button
                 key={sub}
-                onClick={() => setStatSub(sub)}
-                className={`uppercase transition-colors whitespace-nowrap ${statSub === sub ? 'text-pip font-bold drop-shadow-[0_0_5px_rgba(16,185,129,0.8)]' : 'text-pip/40 hover:text-pip/70'}`}
+                onClick={() => handleSubClick(sub)}
+                className={`uppercase transition-colors whitespace-nowrap ${activeSub === sub ? 'text-pip font-bold drop-shadow-[0_0_5px_rgba(16,185,129,0.8)]' : 'text-pip/40 hover:text-pip/70'}`}
               >
                 {sub}
               </button>
@@ -39,8 +158,8 @@ const PipBoy: React.FC = () => {
              {(['QUESTS', 'PROJECTS', 'ACHIEVEMENTS'] as DataSubTab[]).map((sub) => (
               <button
                 key={sub}
-                onClick={() => setDataSub(sub)}
-                className={`uppercase transition-colors whitespace-nowrap ${dataSub === sub ? 'text-pip font-bold drop-shadow-[0_0_5px_rgba(16,185,129,0.8)]' : 'text-pip/40 hover:text-pip/70'}`}
+                onClick={() => handleSubClick(sub)}
+                className={`uppercase transition-colors whitespace-nowrap ${activeSub === sub ? 'text-pip font-bold drop-shadow-[0_0_5px_rgba(16,185,129,0.8)]' : 'text-pip/40 hover:text-pip/70'}`}
               >
                 {sub}
               </button>
@@ -64,10 +183,10 @@ const PipBoy: React.FC = () => {
       {/* TOP NAVIGATION */}
       <nav className="flex justify-between items-end border-b-2 border-pip pb-1 mb-2 px-2 sm:px-4 relative z-10">
         <div className="flex gap-4 sm:gap-8 w-full overflow-x-auto scrollbar-hide">
-          {TABS.map((tab) => (
+          {['STAT', 'DATA', 'MAP', 'RADIO'].map((tab) => (
             <div key={tab} className="relative group shrink-0">
               <button
-                onClick={() => setActiveTab(tab)}
+                onClick={() => handleTabClick(tab as MainTab)}
                 className={`text-xl sm:text-2xl font-bold uppercase px-2 py-1 z-20 relative transition-opacity ${
                   activeTab === tab ? 'text-pip opacity-100' : 'text-pip opacity-50 hover:opacity-80'
                 }`}
@@ -98,15 +217,15 @@ const PipBoy: React.FC = () => {
       <main className="flex-1 overflow-hidden relative border-2 border-pip/20 mx-0 sm:mx-4 mb-2 p-2 sm:p-4 bg-[rgba(16,185,129,0.02)] shadow-inner">
         <AnimatePresence mode='wait'>
           <motion.div
-            key={activeTab + (activeTab === 'STAT' ? statSub : activeTab === 'DATA' ? dataSub : 'default')}
+            key={currentIndex}
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 10 }}
             transition={{ duration: 0.2 }}
             className="h-full"
           >
-             {activeTab === 'STAT' && <StatScreen activeSubTab={statSub} />}
-             {activeTab === 'DATA' && <DataScreen activeSubTab={dataSub} />}
+             {activeTab === 'STAT' && <StatScreen activeSubTab={activeSub as StatSubTab} />}
+             {activeTab === 'DATA' && <DataScreen activeSubTab={activeSub as DataSubTab} />}
              {activeTab === 'MAP' && <MapScreen />}
              {activeTab === 'RADIO' && <RadioScreen />}
           </motion.div>
@@ -117,7 +236,7 @@ const PipBoy: React.FC = () => {
       <footer className="h-12 flex justify-between items-center px-2 sm:px-6 text-pip font-bold text-lg sm:text-xl border-t-2 border-pip/50 mx-0 sm:mx-4 bg-black relative z-10 shrink-0">
          <div className="flex items-center gap-2">
             <div className="bg-pip text-black px-1 text-sm">HP</div>
-            <div className="w-16 sm:w-32 h-4 border border-pip p-0.5">
+            <div className="w-16 sm:w-32 h-4 border border-pip p-0.5 relative">
                 <div className="h-full bg-pip w-[85%] animate-pulse"></div>
             </div>
             <span className="text-sm sm:text-base">85/100</span>
@@ -130,12 +249,16 @@ const PipBoy: React.FC = () => {
             </div>
          </div>
 
+         {/* AP - NAVIGATION INDICATOR */}
          <div className="flex items-center gap-2">
-            <div className="bg-pip text-black px-1 text-sm">AP</div>
-            <div className="w-16 sm:w-32 h-4 border border-pip p-0.5">
-                <div className="h-full bg-pip w-[90%]"></div>
+            <div className={`px-1 text-sm transition-colors ${apCharge > 0 ? 'bg-pip text-black' : 'text-pip border border-pip'}`}>AP</div>
+            <div className="w-16 sm:w-32 h-4 border border-pip p-0.5 relative">
+                <div 
+                    className="h-full bg-pip transition-all duration-75 ease-out"
+                    style={{ width: `${apCharge}%` }}
+                ></div>
             </div>
-            <span className="text-sm sm:text-base">90/100</span>
+            <span className="text-sm sm:text-base w-16 text-right">{Math.round(apCharge)}/100</span>
          </div>
       </footer>
 
