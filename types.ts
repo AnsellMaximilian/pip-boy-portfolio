@@ -63,7 +63,7 @@ export interface InventoryItem {
 }
 
 // Navigation Types
-export type MainTab = 'STAT' | 'INV' | 'DATA' | 'MAP' | 'RADIO';
+export type MainTab = 'STAT' | 'DATA' | 'MAP' | 'RADIO';
 export type StatSubTab = 'STATUS' | 'SPECIAL' | 'PERKS';
-export type DataSubTab = 'QUESTS' | 'PROJECTS' | 'ACHIEVEMENTS'; // Changed WORKSHOPS to PROJECTS
+export type DataSubTab = 'QUESTS' | 'PROJECTS' | 'ACHIEVEMENTS'; 
 export type InvSubTab = 'WEAPONS' | 'APPAREL' | 'AID' | 'MISC';

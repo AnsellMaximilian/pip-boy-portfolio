@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MainTab, StatSubTab, DataSubTab, InvSubTab } from '../types';
+import { MainTab, StatSubTab, DataSubTab } from '../types';
 import StatScreen from './screens/StatScreen';
 import DataScreen from './screens/DataScreen';
-import InvScreen from './screens/InvScreen';
 import RadioScreen from './screens/RadioScreen';
+import MapScreen from './screens/MapScreen';
 
 // Main Tabs Config
-const TABS: MainTab[] = ['STAT', 'DATA', 'INV', 'MAP', 'RADIO'];
+const TABS: MainTab[] = ['STAT', 'DATA', 'MAP', 'RADIO'];
 
 const PipBoy: React.FC = () => {
   const [activeTab, setActiveTab] = useState<MainTab>('STAT');
   
   // Sub-tabs State
   const [statSub, setStatSub] = useState<StatSubTab>('STATUS');
-  const [invSub, setInvSub] = useState<InvSubTab>('WEAPONS');
   const [dataSub, setDataSub] = useState<DataSubTab>('QUESTS');
 
   // Render Sub Navigation based on active Tab
@@ -34,20 +33,6 @@ const PipBoy: React.FC = () => {
             ))}
           </div>
         );
-      case 'INV':
-        return (
-          <div className="flex gap-6 mb-4 text-xl overflow-x-auto scrollbar-hide">
-             {(['WEAPONS', 'APPAREL', 'AID', 'MISC'] as InvSubTab[]).map((sub) => (
-              <button
-                key={sub}
-                onClick={() => setInvSub(sub)}
-                className={`uppercase transition-colors whitespace-nowrap ${invSub === sub ? 'text-pip font-bold drop-shadow-[0_0_5px_rgba(16,185,129,0.8)]' : 'text-pip/40 hover:text-pip/70'}`}
-              >
-                {sub}
-              </button>
-            ))}
-          </div>
-        );
       case 'DATA':
          return (
           <div className="flex gap-6 mb-4 text-xl overflow-x-auto scrollbar-hide">
@@ -61,6 +46,12 @@ const PipBoy: React.FC = () => {
               </button>
             ))}
           </div>
+        );
+      case 'MAP':
+        return (
+            <div className="flex gap-6 mb-4 text-xl overflow-x-auto scrollbar-hide opacity-50 cursor-default">
+                <span className="text-pip font-bold drop-shadow-[0_0_5px_rgba(16,185,129,0.8)]">GEOLOCATION</span>
+            </div>
         );
       default:
         return <div className="h-8 mb-4"></div>;
@@ -107,7 +98,7 @@ const PipBoy: React.FC = () => {
       <main className="flex-1 overflow-hidden relative border-2 border-pip/20 mx-0 sm:mx-4 mb-2 p-2 sm:p-4 bg-[rgba(16,185,129,0.02)] shadow-inner">
         <AnimatePresence mode='wait'>
           <motion.div
-            key={activeTab + (activeTab === 'STAT' ? statSub : activeTab === 'DATA' ? dataSub : invSub)}
+            key={activeTab + (activeTab === 'STAT' ? statSub : activeTab === 'DATA' ? dataSub : 'default')}
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 10 }}
@@ -116,13 +107,8 @@ const PipBoy: React.FC = () => {
           >
              {activeTab === 'STAT' && <StatScreen activeSubTab={statSub} />}
              {activeTab === 'DATA' && <DataScreen activeSubTab={dataSub} />}
-             {activeTab === 'INV' && <InvScreen activeSubTab={invSub} />}
+             {activeTab === 'MAP' && <MapScreen />}
              {activeTab === 'RADIO' && <RadioScreen />}
-             {activeTab === 'MAP' && (
-                <div className="h-full flex items-center justify-center text-pip opacity-50 text-2xl animate-pulse">
-                    MODULE NOT INSTALLED
-                </div>
-             )}
           </motion.div>
         </AnimatePresence>
       </main>
