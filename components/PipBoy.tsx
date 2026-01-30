@@ -4,6 +4,7 @@ import { MainTab, StatSubTab, DataSubTab, InvSubTab } from '../types';
 import StatScreen from './screens/StatScreen';
 import DataScreen from './screens/DataScreen';
 import InvScreen from './screens/InvScreen';
+import RadioScreen from './screens/RadioScreen';
 
 // Main Tabs Config
 const TABS: MainTab[] = ['STAT', 'DATA', 'INV', 'MAP', 'RADIO'];
@@ -116,7 +117,8 @@ const PipBoy: React.FC = () => {
              {activeTab === 'STAT' && <StatScreen activeSubTab={statSub} />}
              {activeTab === 'DATA' && <DataScreen activeSubTab={dataSub} />}
              {activeTab === 'INV' && <InvScreen activeSubTab={invSub} />}
-             {(activeTab === 'MAP' || activeTab === 'RADIO') && (
+             {activeTab === 'RADIO' && <RadioScreen />}
+             {activeTab === 'MAP' && (
                 <div className="h-full flex items-center justify-center text-pip opacity-50 text-2xl animate-pulse">
                     MODULE NOT INSTALLED
                 </div>
