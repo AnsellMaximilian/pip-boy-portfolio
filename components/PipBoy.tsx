@@ -38,25 +38,23 @@ const PipBoy: React.FC = () => {
   const activeTab = currentSection.tab;
   const activeSub = currentSection.sub;
 
-  // Helper: Check if element is scrollable in the requested direction
-  const canScrollElement = (el: HTMLElement, direction: 'up' | 'down'): boolean => {
+  // Helper: Check if element is strictly scrollable (has overflow)
+  // We ignore direction now; if you are in a scrollable container, navigation is disabled.
+  const canScrollElement = (el: HTMLElement): boolean => {
+      if (!el) return false;
       const style = window.getComputedStyle(el);
-      const isScrollable = style.overflowY === 'auto' || style.overflowY === 'scroll';
+      const isScrollableStyle = style.overflowY === 'auto' || style.overflowY === 'scroll';
+      // Add a small buffer (1px) to avoid false positives from sub-pixel rendering
+      const hasOverflow = el.scrollHeight > el.clientHeight + 1;
       
-      if (!isScrollable) return false;
-
-      // Use a small tolerance for float calculations
-      if (direction === 'down') {
-          return Math.abs(el.scrollHeight - el.clientHeight - el.scrollTop) > 1;
-      } else {
-          return el.scrollTop > 1;
-      }
+      return isScrollableStyle && hasOverflow;
   };
 
-  const isScrollableContext = (target: EventTarget | null, direction: 'up' | 'down'): boolean => {
+  const isScrollableContext = (target: EventTarget | null): boolean => {
       let el = target as HTMLElement;
-      while (el && el !== document.body) {
-          if (canScrollElement(el, direction)) {
+      // Traverse up to find if we are inside a scrollable container
+      while (el && el !== document.body && el !== null) {
+          if (canScrollElement(el)) {
               return true;
           }
           el = el.parentElement as HTMLElement;
@@ -67,11 +65,9 @@ const PipBoy: React.FC = () => {
   // Scroll Handler
   useEffect(() => {
       const handleWheel = (e: WheelEvent) => {
-          const direction = e.deltaY > 0 ? 'down' : 'up';
-          
-          // Check if we are inside a scrollable area that hasn't reached the edge
-          if (isScrollableContext(e.target, direction)) {
-              // If native scroll works, reset accumulator/AP and let it happen
+          // Check if we are inside a scrollable area (list, detail view, etc)
+          if (isScrollableContext(e.target)) {
+              // If hovering over scrollable content, allow native scroll and BLOCK navigation accumulation
               scrollAccumulator.current = 0;
               setApCharge(0);
               return;
@@ -81,7 +77,7 @@ const PipBoy: React.FC = () => {
           lastScrollTime.current = Date.now();
           scrollAccumulator.current += e.deltaY;
 
-          // Cap accumulator logic at edges
+          // Cap accumulator logic at edges of the menu system
           if (currentIndex === 0 && scrollAccumulator.current < 0) scrollAccumulator.current = 0;
           if (currentIndex === SECTIONS.length - 1 && scrollAccumulator.current > 0) scrollAccumulator.current = 0;
 
