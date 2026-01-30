@@ -143,7 +143,7 @@ const ProjectsView: React.FC = () => {
 
 const AchievementsView: React.FC = () => {
     return (
-        <div className="h-full overflow-y-auto pr-2">
+        <div className="h-full overflow-y-auto pr-2 text-pip">
             <div className="grid grid-cols-1 gap-4">
                 {ACHIEVEMENTS.map((ach) => (
                     <div key={ach.id} className="border border-pip/40 p-4 bg-pip/5 flex flex-col sm:flex-row gap-4 hover:bg-pip/10 transition-colors">

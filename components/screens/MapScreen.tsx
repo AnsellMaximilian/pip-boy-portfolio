@@ -63,7 +63,7 @@ const MapScreen: React.FC = () => {
 
         {/* Right Column: Hierarchy List */}
         <div className="w-full md:w-1/2 flex flex-col h-full border-l-0 md:border-l-2 border-pip/30 pl-0 md:pl-4 overflow-y-auto">
-            <div className="flex items-center gap-2 mb-4 border-b-2 border-pip pb-2">
+            <div className="flex items-center gap-2 mb-4 border-b-2 border-pip pb-2 text-pip">
                 <Navigation size={20} />
                 <h2 className="text-xl font-bold uppercase tracking-wider">Local Map Data</h2>
             </div>
